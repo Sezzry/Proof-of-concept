@@ -10,6 +10,7 @@
 
 DHT dht(DHTPIN, DHTTYPE);
 
+const char* apiToken = "GYaBnFXg4AwJtyu8k5yRZruN4O5Ssxe3yuxB1lyE3oKnyibaHxpljWz2FQn-h4ZPxpKwPT1e0zc1UD0DJ4FXRQ==";
 // Definiera dina WiFi-inloggningsuppgifter
 const char* ssid = "Tele2_9cae3d";       // Din WiFi SSID
 const char* password = "cjmzjywy"; // Ditt WiFi-lösenord
@@ -17,159 +18,122 @@ const char* password = "cjmzjywy"; // Ditt WiFi-lösenord
 // CA-certifikat (konverterat från den givna texten)
 const char* ca_cert = \
 "-----BEGIN CERTIFICATE-----\n" \
-"MIIEKzCCAxOgAwIBAgIUQTSOEFs401w1erBfSrPkYuOa/YgwDQYJKoZIhvcNAQEL\n" \
-"BQAwgaQxCzAJBgNVBAYTAlNFMRIwEAYDVQQIDAlTdG9ja2hvbG0xEjAQBgNVBAcM\n" \
-"CVN0b2NraG9sbTETMBEGA1UECgwKTmFja2FkZW1pbjETMBEGA1UECwwKTmFja2Fk\n" \
-"ZW1pbjESMBAGA1UEAwwJbG9jYWxob3N0MS8wLQYJKoZIhvcNAQkBFiBzYXJhbi5r\n" \
-"b25ndGhvbmdAeWgubmFja2FkZW1pbi5zZTAeFw0yNDEwMjQyMDU5MTJaFw0yNzA4\n" \
-"MTQyMDU5MTJaMIGkMQswCQYDVQQGEwJTRTESMBAGA1UECAwJU3RvY2tob2xtMRIw\n" \
-"EAYDVQQHDAlTdG9ja2hvbG0xEzARBgNVBAoMCk5hY2thZGVtaW4xEzARBgNVBAsM\n" \
-"Ck5hY2thZGVtaW4xEjAQBgNVBAMMCWxvY2FsaG9zdDEvMC0GCSqGSIb3DQEJARYg\n" \
-"c2FyYW4ua29uZ3Rob25nQHloLm5hY2thZGVtaW4uc2UwggEiMA0GCSqGSIb3DQEB\n" \
-"AQUAA4IBDwAwggEKAoIBAQD1FZP+L300GQq6eD1z8qtfDj3F6YU2ebqJepy5Zc4W\n" \
-"nB6Q/LaZ8N4vYk7Jo3bnVYgaQLnxz6ZVkrF46PNks1Pcb2vy7ySlEA0xf1JXzPK+\n" \
-"e20efhqZQUCcnRQfA03oGokFKn/0I21r+te3yK0zAePWbXAgKkkJ3HiQc/RHQdyE\n" \
-"g6IFTtk6V6IqNernWyhKvXIrdHCs1Z7NxoxiGr6fyUmz7XSGvboE2ko6+1AoG+r4\n" \
-"7jZouyohuW8j6Q1z8ZW3OmyVC7iQiVq5Zf6RTdInAXtLr/4O5Spr+uk/glbOgAh9\n" \
-"DWYz4iQK8MvGl3bnDfBGPNwZiiI/q/JdLfP4uWjJgp4NAgMBAAGjUzBRMB0GA1Ud\n" \
-"DgQWBBTRLyII97sSH9w0E0jYYY+QapMh9zAfBgNVHSMEGDAWgBTRLyII97sSH9w0\n" \
-"E0jYYY+QapMh9zAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQCz\n" \
-"QomztatOg/Whi7TQin5cAekHTZmRUE9tpO577Nl3DkfiQqDduAO5O2KEkmpbL017\n" \
-"4AuwYgs4h7PDT8V4uEB0NlSA+qXcZ5Vj4r1BGm7UfoSP1Hhb/6rtkIdmGixQ/wAu\n" \
-"y1cFbZfJyhr8sDP1yKww9J+LVlefs/ofTLMdtxLk4rSBs7beQ+YPe9EgMN03udE+\n" \
-"dUni1jBrCQ4vhk1w6mVfXedChp2hmtrCp/r78laJKzdpTLbtYBlgMhmcmNEaJWhC\n" \
-"bjYb2E78/wpHYxP2p38JKDFFO3scwGKTD1De/WFZi9ZcHH+gMRMJbBcgcrBzmnNg\n" \
-"FEZfu7Jxl3GOBfqTOWPc\n" \
+"MIIEFTCCAv2gAwIBAgIURJ5uNfY7nI8IGE38opN/JBZcK74wDQYJKoZIhvcNAQEL\n" \
+"BQAwgZkxCzAJBgNVBAYTAlNFMRIwEAYDVQQIDAlTdG9ja2hvbG0xEjAQBgNVBAcM\n" \
+"CVN0b2NraG9sbTESMBAGA1UECgwJbG9jYWxob3N0MRIwEAYDVQQLDAlsb2NhbGhv\n" \
+"c3QxEjAQBgNVBAMMCWxvY2FsaG9zdDEmMCQGCSqGSIb3DQEJARYXam9lLmtvbmd0\n" \
+"aG9uZ0BnbWFpbC5jb20wHhcNMjQxMDI2MTk1NDM4WhcNMjcwODE2MTk1NDM4WjCB\n" \
+"mTELMAkGA1UEBhMCU0UxEjAQBgNVBAgMCVN0b2NraG9sbTESMBAGA1UEBwwJU3Rv\n" \
+"Y2tob2xtMRIwEAYDVQQKDAlsb2NhbGhvc3QxEjAQBgNVBAsMCWxvY2FsaG9zdDES\n" \
+"MBAGA1UEAwwJbG9jYWxob3N0MSYwJAYJKoZIhvcNAQkBFhdqb2Uua29uZ3Rob25n\n" \
+"QGdtYWlsLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANuZQQ7n\n" \
+"bLfV8oyOoNa8V77N8qwowEvvoEdbtSRL5B5Bx5m2/BF3ah7BH+dtJ+x5FuCZ0kAY\n" \
+"6WfIZPTsn4vS3q74A3vWWw65/O86ZjHHstxwJoBdA/jR9ANmw7HZ39uYU5dq0Cl/\n" \
+"+uQHRghX7nwVA9o9eRjTiX2EfYETlzlULfLNy4A+w11pfGxR8WOH4NzN1MbCfWQY\n" \
+"alVk38J+gZJ25XtbPMpmHCD0uSg+2AXO8I9TIe+jRW3o5OQWrZhAmH5k9ctJKRw/\n" \
+"y0l3RMpXFtazuiW/2rIXn67HHEQpwMWmVua4TFjfZsDw8vu579ZwaDmMgSC7XvBN\n" \
+"UA1Ua3stcXqjh6kCAwEAAaNTMFEwHQYDVR0OBBYEFNePoYAo9rdckZxqUHW+EP5N\n" \
+"I02DMB8GA1UdIwQYMBaAFNePoYAo9rdckZxqUHW+EP5NI02DMA8GA1UdEwEB/wQF\n" \
+"MAMBAf8wDQYJKoZIhvcNAQELBQADggEBADPgLkhVKBwg2CovLuvs7v2Z507yczvS\n" \
+"QjSTixheUH4AGg2S0ww9ozmACFvwtARq0Z0vRxfqtIJBY/IIA/is4xtFpdonqxeD\n" \
+"OoPikizA3n7BiM0CF4Uo3RAlk4bByS/fpWfgw5EAqt01GOuWccdt8m0+EIFP1bsg\n" \
+"TKcvc02IVSIYBdUkvoElG0F8mBRb/XYvyWgxYe0HhXsIFNNDzlc4CdCF9F6caPoK\n" \
+"yVCuyf4eiX/I9egl9xWF+CiWxVEQd7AJmfM2gr0TDDGDa+4EEd1D5g/pMO2pyvCL\n" \
+"0IJy5dOzRH51+pATjogonBMt5c/m9huTwVPwP4bhNiUufQtUBteQMok=\n" \
 "-----END CERTIFICATE-----\n";
 
 // Klientens certifikat (exempel, fyll i ditt egna certifikat)
 const char* client_cert = \
 "-----BEGIN CERTIFICATE-----\n" \
-"MIIGjCCAwKgAwIBAgIUfwfQ7RKGVcN+w5WP2pLMaNHE+LowDQYJKoZIhvcNAQEL\n" \
-"BQAwgaQxCzAJBgNVBAYTAlNFMRIwEAYDVQQIDAlTdG9ja2hvbG0xEjAQBgNVBAcM\n" \
-"CVN0b2NraG9sbTETMBEGA1UECgwKTmFja2FkZW1pbjETMBEGA1UECwwKTmFja2Fk\n" \
-"ZW1pbjESMBAGA1UEAwwJbG9jYWxob3N0MS8wLQYJKoZIhvcNAQkBFiBzYXJhbi5r\n" \
-"b25ndGhvbmdAeWgubmFja2FkZW1pbi5zZTAeFw0yNDEwMjQyMTAxNDdaFw0yNjAz\n" \
-"MDgyMTAxNDdaMIGkMQswCQYDVQQGEwJTRTESMBAGA1UECAwJU3RvY2tob2xtMRIw\n" \
-"EAYDVQQHDAlTdG9ja2hvbG0xEzARBgNVBAoMCk5hY2thZGVtaW4xEzARBgNVBAsM\n" \
-"Ck5hY2thZGVtaW4xEjAQBgNVBAMMCWxvY2FsaG9zdDEvMC0GCSqGSIb3DQEJARYg\n" \
-"c2FyYW4ua29uZ3Rob25nQHloLm5hY2thZGVtaW4uc2UwggEiMA0GCSqGSIb3DQEB\n" \
-"AQUAA4IBDwAwggEKAoIBAQC5wM2ROUMO1rPOxNwaHnzTJ8/MTNaKqzVaZQUBboAp\n" \
-"2X0MzHdAPiCXWNARiT7ln95D03+DXIgwnWLYLB2vKNYlqQ6OYjV4juR2yP7ykP2j\n" \
-"RF26nrabx07xc3CrWjolP7bupfRS4oSss+wuuLMvpHFMPMAEzIXIs+aYIMQavxHM\n" \
-"V1EMU8Wmd9B4cwQXOFCE33Rgn82ypctOoX9AswPyBZsWAyhfwLW+O+p6UGLb7Rjt\n" \
-"WZr8uPPknn/Q7uqv8liESUh1r2ClPlcE/kun5SSKYYTXRdu2ArjNfcF15z3BVCdR\n" \
-"1r2bz7grk1D0P4aGx412V+NFHeEIXePje+K6O5IJQSNJAgMBAAGjQjBAMB0GA1Ud\n" \
-"DgQWBBRp7tdS5kNjWUPlKmWKxuyVIyfpPzAfBgNVHSMEGDAWgBTRLyII97sSH9w0\n" \
-"E0jYYY+QapMh9zANBgkqhkiG9w0BAQsFAAOCAQEAwXDM56YefwnVzg4HVb5be4i7\n" \
-"lcwTQO/1gGHdbEIHP5VdMMYXm40DGBWgHExLxHI8mfND+q0uwvwu/kc2l8cLE5Bv\n" \
-"4+a6oYwi3HvMtHKTrnR6MH1WUXU+UREviy+8PLUhgyer6yF8Twm20Em1vVcbWIXW\n" \
-"iRGAQHXJwGej04jtL6gHaODKElPblCSBf8GLjAB+VUINJ2I/vzgcc/gdE55D2I6e\n" \
-"AKAujsQhPx37gjWoadXB4LdMhqTY3tAmLaV1DoLjSRHtyy2Z1TYQXwnLxNM56L4D\n" \
-"/1+xjD6Hr3XOfc4ew+u1INCOMEuB6QJGZ6yCyhSprXOZPyIhS++V88eHIDEEXw==\n" \
+"MIIEBDCCAuygAwIBAgIUQI/k8GGGqVGbbtWeSbKR2JMwC9swDQYJKoZIhvcNAQEL\n" \
+"BQAwgZkxCzAJBgNVBAYTAlNFMRIwEAYDVQQIDAlTdG9ja2hvbG0xEjAQBgNVBAcM\n" \
+"CVN0b2NraG9sbTESMBAGA1UECgwJbG9jYWxob3N0MRIwEAYDVQQLDAlsb2NhbGhv\n" \
+"c3QxEjAQBgNVBAMMCWxvY2FsaG9zdDEmMCQGCSqGSIb3DQEJARYXam9lLmtvbmd0\n" \
+"aG9uZ0BnbWFpbC5jb20wHhcNMjQxMDI2MTk1NjE0WhcNMjYwMzEwMTk1NjE0WjCB\n" \
+"mTELMAkGA1UEBhMCU0UxEjAQBgNVBAgMCVN0b2NraG9sbTESMBAGA1UEBwwJU3Rv\n" \
+"Y2tob2xtMRIwEAYDVQQKDAlsb2NhbGhvc3QxEjAQBgNVBAsMCWxvY2FsaG9zdDES\n" \
+"MBAGA1UEAwwJbG9jYWxob3N0MSYwJAYJKoZIhvcNAQkBFhdqb2Uua29uZ3Rob25n\n" \
+"QGdtYWlsLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOPJ8NdB\n" \
+"cprNSGGJRn8mZSmMaXOlT5DANhizFpmL6P71cw94QIozr4M6/yHTHrDIyUHnNSkU\n" \
+"SMdwtNaicnSZSIFCsb4VRVwtWRKALof8j6L9a4x0+quSNTlmYZn58XfJwhnWgJkQ\n" \
+"1H/BOXGCYDbsTZ3V8c39HrxeauT2P8AFOStM8MH/tCbz7XmNbzc0vt4KODPS9y9n\n" \
+"BKcVAVRIqkk6tpA+G227KcEvF1yDPNGlpv352mmyZB2kiDXt4eqbWlhkMKfPGgZY\n" \
+"ZniF43Kns0iaC+Pc2X0K36B4e4SfHwluqwpI+YP31WmpiE4zX6wMdwrRzhlDloze\n" \
+"/FL0AoFNW6JgZwcCAwEAAaNCMEAwHQYDVR0OBBYEFDqLyJbXmI/nRadV+G41iDpD\n" \
+"n///MB8GA1UdIwQYMBaAFNePoYAo9rdckZxqUHW+EP5NI02DMA0GCSqGSIb3DQEB\n" \
+"CwUAA4IBAQAvWvif9J7Vt+cda3MLXMXR4jO9QE+H2+BZlQTsOKg1lMMA6/0kwBgd\n" \
+"0IleFMFm+P7v/D1x6lYks7rhdp+nGOUrzPvt2YxE8TGNp+7lbDcyQ5TuFR23sBOD\n" \
+"K6wFdk1yMuzm9XJ4lc2ymTACY+v3/BmKUY3Ml9rvGByUQaa5ZKMgqt0mwXKy6/7p\n" \
+"UokPEbxsft1Xf23o9NqYOT1VZNWyMgsIcnJA8cdWROUAnDzRTWSfvNNoTVY3ilVA\n" \
+"UnBbrdw9QrJziiM+QNSV/DkCxsT4qtIMUqZDUUesNjTfQZSd+5wq0ThWoTatwJWo\n" \
+"H++AHfhe9pTq4lHrdP5Kg9vbEOlzKbLL\n" \
 "-----END CERTIFICATE-----\n";
 
-// Klientens nyckel (exempel, fyll i din egen nyckel)
-const char* client_key = \
-"-----BEGIN PRIVATE KEY-----\n" \
-"MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC5wM2ROUMO1rPO\n" \
-"xNwaHnzTJ8/MTNaKqzVaZQUBboAp2X0MzHdAPiCXWNARiT7ln95D03+DXIgwnWLY\n" \
-"LB2vKNYlqQ6OYjV4juR2yP7ykP2jRF26nrabx07xc3CrWjolP7bupfRS4oSss+wu\n" \
-"uLMvpHFMPMAEzIXIs+aYIMQavxHMV1EMU8Wmd9B4cwQXOFCE33Rgn82ypctOoX9A\n" \
-"swPyBZsWAyhfwLW+O+p6UGLb7RjtWZr8uPPknn/Q7uqv8liESUh1r2ClPlcE/kun\n" \
-"5SSKYYTXRdu2ArjNfcF15z3BVCdR1r2bz7grk1D0P4aGx412V+NFHeEIXePje+K6\n" \
-"O5IJQSNJAgMBAAECggEAAkoXzocp5iwrxavj+ZdwGusl8sLsrwNasj1GAUVDI6Do\n" \
-"W2jGvH43iR4BXIH4Sjy88NGRxAT3McAy2G68w+ypLQgnI4ae2ZhLRRKHn+Y9Fg7Q\n" \
-"5+yuW/+qH6w4UohXaJ+fKdRWTVI45+cEzXOd08O/WLzz8esyZ+2dtTjMKfc6aS4R\n" \
-"455VnIKcXT9WusXLAG+Gv9ZN5qK3Bn8jKWLi9aaoBpKmuroXwsvWtxNb4nqw2rZi\n" \
-"8z1pzautcjCnymvFm/XgMxzCOYKOITygzLPaGn39yUJvYhDau29xE225BA/ggvL9\n" \
-"ZUHDAsKGeuKn4p66Q9/OGzy2Rtq9dG7irIKBoeXwoQKBgQD+KWG+tlywrk9qZSox\n" \
-"amLU6NB8bjwG5i/tZH1fTOcwM0bNz73mHe7i1GmKJaG48JpTzrwjK7Zj3CMBSaVv\n" \
-"EYP+mPDrL48iPd+CfhsvVAQ1qUtAdaExcaPUKRQPObENxWJOj1lyPim+dBBwwXis\n" \
-"Urr7p8hpFzz7Zs9njd1HOk5CeQKBgQC7GMCr8veWruXitmfiVsYXjGSspCsfYQYA\n" \
-"TX8j9alV0QLGW3T9JAhpNdf2ok3N/hjWoSfTJuMo6cBFSPbvZXbgfKXyzKwSYKuR\n" \
-"/ezhsPx6cLOl8pQkn2GmCDG5QTvB5Lglwn0Al5ecCXNgeo5hiujlENVEGlL22jf5\n" \
-"vZ+dKUAzUQKBgFzhppTZc/olWWRaYBb69+8yva4bYthqmq04ghCnu/0DYCaqeo1z\n" \
-"9u7yDTetFPLPCrcB4ANCYD8SHcDEty5lykTqg3CPStGKpvm7OBgNrhQmMBf4ZNX6\n" \
-"35ITCP+fZ7LOpWRsQpXbXcn6BGAQdBcVjLuWz0iIc4K0SatgTrNO/XaRAoGAYinF\n" \
-"hTIQRyXyhXWwoadnfZlyhMYJvgf4zxXZ/DL7KoRkEVCQ2/QY2aKfcc6MReTogUvC\n" \
-"il2f16p076UtskMpEPU1WGOccHP58Loqm+txPIh/KTVSFrjs0eEAvbMFOGDZYS5e\n" \
-"yX2/1OV8fIUwyOrJ8M1ZJ8cr+kpaDhU4dovbHFECgYBcLeYvy8ppd3u9u6k2kwGc\n" \
-"NE6dATUCuScN/7YsuKQeGYELmtql++I7JQf0kUmyQy7AHfF8xp/yFf1daDtAOech\n" \
-"v6A+6kWa4Z/ZmC8WHP8ZjrKn6AsEnvZaZ4Lr6GBKqrsB8hFMiwgaKhE94DQ2As+c\n" \
-"NXTdAV9veTzIR8kBEVf4Pw==\n" \
-"-----END PRIVATE KEY-----\n";
+void sendToNGINX(float humidity, float temperature); // Deklarera funktionen här
 
 void setup() {
-  // Starta seriell kommunikation
   Serial.begin(115200);
-  
-  // Initiera DHT-sensorn
   dht.begin();
-
-  // Anslut till WiFi-nätverket
-  Serial.print("Försöker ansluta till WiFi-nätverket: ");
-  Serial.println(ssid);
   
+  // Anslut till WiFi
   WiFi.begin(ssid, password);
-
-  // Vänta tills en anslutning har etablerats
+  Serial.print("Ansluter till WiFi");
+  
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.print(".");
   }
-
-  // När anslutningen är framgångsrik
-  Serial.println("");
-  Serial.println("WiFi anslutet!");
-  Serial.print("IP-adress: ");
-  Serial.println(WiFi.localIP());
-
-  // Initiera WiFiClientSecure
-  WiFiClientSecure client;
-  client.setCACert(ca_cert);        // Sätt CA-certifikat
-  client.setCertificate(client_cert); // Sätt klientcertifikat
-  client.setPrivateKey(client_key);   // Sätt klientnyckel
-
-  // Här kan du göra en HTTPS-förfrågan, exempelvis:
-  if (!client.connect("your.server.com", 443)) { // Ersätt med din servers domän
-    Serial.println("Anslutning misslyckades!");
-    return;
-  }
-
-  // Gör en GET-förfrågan
-  client.println("GET /path/to/resource HTTP/1.1");
-  client.println("Host: your.server.com");
-  client.println("Connection: close");
-  client.println();
-
-  // Vänta på svar
-  while (client.connected() || client.available()) {
-    if (client.available()) {
-      String line = client.readStringUntil('\n');
-      Serial.println(line);
-    }
-  }
+  
+  Serial.println("Ansluten till WiFi!");
 }
 
 void loop() {
-  // Vänta 2 sekunder mellan mätningar
-  delay(2000);
-
-  // Läs temperaturen och luftfuktigheten från sensorn
+  // Läs temperatur och luftfuktighet från DHT11
   float humidity = dht.readHumidity();
   float temperature = dht.readTemperature();
 
-  // Kontrollera om något gick fel vid avläsningen
+  // Kontrollera om läsningen misslyckades
   if (isnan(humidity) || isnan(temperature)) {
-    Serial.println(F("Misslyckades att läsa från DHT-sensorn!"));
+    Serial.println("Misslyckades med att läsa från DHT11!");
     return;
   }
-
-  // Skriv ut värdena till seriella monitorn
-  Serial.print(F("Luftfuktighet: "));
+  
+  Serial.print("Luftfuktighet: ");
   Serial.print(humidity);
-  Serial.print(F("%  Temperatur: "));
+  Serial.print(" %, Temperatur: ");
   Serial.print(temperature);
-  Serial.println(F("°C"));
+  Serial.println(" *C");
+  
+  // Skicka data till InfluxDB
+  sendToNGINX(humidity, temperature);
+  
+  // Vänta 10 sekunder innan nästa mätning
+  delay(10000);
+}
+
+void sendToNGINX(float humidity, float temperature) {
+    WiFiClientSecure client; // Använd WiFiClient för HTTP
+    String org = "my_org"; 
+    String bucket = "sensor";
+
+    if (client.connect("172.19.166.79", 443)) { // Ändra till din NGINX IP-adress
+        String data = "environment,sensor=dht11 humidity=" + String(humidity) + ",temperature=" + String(temperature);
+        String request = "POST /api/v2/write?org=" + org + "&bucket=" + bucket + "&precision=s HTTP/1.1\r\n" +
+                         "Host: 172.19.166.79\r\n" + // Återigen, ändra till din NGINX IP-adress
+                         "Authorization: Token " + String(apiToken) + "\r\n" +
+                         "Content-Length: " + String(data.length()) + "\r\n" +
+                         "Content-Type: application/x-www-form-urlencoded\r\n" +
+                         "Connection: close\r\n\r\n" + data;
+
+        client.print(request);
+
+        while (client.connected() || client.available()) {
+            if (client.available()) {
+                String line = client.readStringUntil('\n');
+                Serial.println(line); // Debug för att kontrollera serverns svar
+            }
+        }
+    } else {
+        Serial.println("Connection to NGINX failed!");
+    }
 }
