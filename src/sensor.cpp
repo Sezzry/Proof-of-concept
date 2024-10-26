@@ -104,7 +104,7 @@ const char* client_key = \
 
 
 // Definiera din serveradress
-const char* serverName = "https://192.168.0.103"; // Din NGINX-serveradress
+const char* serverName = "https://192.168.0.103"; // Din NGINX-serveradress får DNS fail
 
 // Skapa en instans av WiFiClientSecure för mTLS
 WiFiClientSecure client;
