@@ -10,7 +10,8 @@
 
 DHT dht(DHTPIN, DHTTYPE);
 
-const char* apiToken = "GYaBnFXg4AwJtyu8k5yRZruN4O5Ssxe3yuxB1lyE3oKnyibaHxpljWz2FQn-h4ZPxpKwPT1e0zc1UD0DJ4FXRQ==";
+//const char* apiToken = "GYaBnFXg4AwJtyu8k5yRZruN4O5Ssxe3yuxB1lyE3oKnyibaHxpljWz2FQn-h4ZPxpKwPT1e0zc1UD0DJ4FXRQ==";
+
 // Definiera dina WiFi-inloggningsuppgifter
 const char* ssid = "Tele2_9cae3d";       // Din WiFi SSID
 const char* password = "cjmzjywy"; // Ditt WiFi-lösenord
@@ -42,7 +43,7 @@ const char* ca_cert = \
 "0IJy5dOzRH51+pATjogonBMt5c/m9huTwVPwP4bhNiUufQtUBteQMok=\n" \
 "-----END CERTIFICATE-----\n";
 
-// Klientens certifikat (exempel, fyll i ditt egna certifikat)
+// Klientens certifikat (fyll i ditt egna certifikat)
 const char* client_cert = \
 "-----BEGIN CERTIFICATE-----\n" \
 "MIIEBDCCAuygAwIBAgIUQI/k8GGGqVGbbtWeSbKR2JMwC9swDQYJKoZIhvcNAQEL\n" \
@@ -59,81 +60,114 @@ const char* client_cert = \
 "1H/BOXGCYDbsTZ3V8c39HrxeauT2P8AFOStM8MH/tCbz7XmNbzc0vt4KODPS9y9n\n" \
 "BKcVAVRIqkk6tpA+G227KcEvF1yDPNGlpv352mmyZB2kiDXt4eqbWlhkMKfPGgZY\n" \
 "ZniF43Kns0iaC+Pc2X0K36B4e4SfHwluqwpI+YP31WmpiE4zX6wMdwrRzhlDloze\n" \
-"/FL0AoFNW6JgZwcCAwEAAaNCMEAwHQYDVR0OBBYEFDqLyJbXmI/nRadV+G41iDpD\n" \
-"n///MB8GA1UdIwQYMBaAFNePoYAo9rdckZxqUHW+EP5NI02DMA0GCSqGSIb3DQEB\n" \
-"CwUAA4IBAQAvWvif9J7Vt+cda3MLXMXR4jO9QE+H2+BZlQTsOKg1lMMA6/0kwBgd\n" \
-"0IleFMFm+P7v/D1x6lYks7rhdp+nGOUrzPvt2YxE8TGNp+7lbDcyQ5TuFR23sBOD\n" \
-"K6wFdk1yMuzm9XJ4lc2ymTACY+v3/BmKUY3Ml9rvGByUQaa5ZKMgqt0mwXKy6/7p\n" \
-"UokPEbxsft1Xf23o9NqYOT1VZNWyMgsIcnJA8cdWROUAnDzRTWSfvNNoTVY3ilVA\n" \
-"UnBbrdw9QrJziiM+QNSV/DkCxsT4qtIMUqZDUUesNjTfQZSd+5wq0ThWoTatwJWo\n" \
-"H++AHfhe9pTq4lHrdP5Kg9vbEOlzKbLL\n" \
+"/FL0AoFNW6JcCyUCAwEAAaNTMFEwHQYDVR0OBBYEFNePoYAo9rdckZxqUHW+EP5N\n" \
+"I02DMB8GA1UdIwQYMBaAFNePoYAo9rdckZxqUHW+EP5NI02DMA8GA1UdEwEB/wQF\n" \
+"MAMBAf8wDQYJKoZIhvcNAQELBQADggEBADPgLkhVKBwg2CovLuvs7v2Z507yczvS\n" \
+"QjSTixheUH4AGg2S0ww9ozmACFvwtARq0Z0vRxfqtIJBY/IIA/is4xtFpdonqxeD\n" \
+"OoPikizA3n7BiM0CF4Uo3RAlk4bByS/fpWfgw5EAqt01GOuWccdt8m0+EIFP1bsg\n" \
+"TKcvc02IVSIYBdUkvoElG0F8mBRb/XYvyWgxYe0HhXsIFNNDzlc4CdCF9F6caPoK\n" \
+"yVCuyf4eiX/I9egl9xWF+CiWxVEQd7AJmfM2gr0TDDGDa+4EEd1D5g/pMO2pyvCL\n" \
+"0IJy5dOzRH51+pATjogonBMt5c/m9huTwVPwP4bhNiUufQtUBteQMok=\n" \
 "-----END CERTIFICATE-----\n";
 
-void sendToNGINX(float humidity, float temperature); // Deklarera funktionen här
+// Klientens privata nyckel (fyll i din egen privata nyckel)
+const char* client_key = \
+"-----BEGIN PRIVATE KEY-----\n" \
+"MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDjyfDXQXKazUhh\n" \
+"iUZ/JmUpjGlzpU+QwDYYsxaZi+j+9XMPeECKM6+DOv8h0x6wyMlB5zUpFEjHcLTW\n" \
+"onJ0mUiBQrG+FUVcLVkSgC6H/I+i/WuMdPqrkjU5ZmGZ+fF3ycIZ1oCZENR/wTlx\n" \
+"g/mA27E2d1fHN/R68Xmrk9j/ABTkrTPDB/7Qm8+15jW83NL7eCjgz0vcvZwSnFQFU\n" \
+"SKpJOraQPhttuynBLxdcgzzRpab9+dppsmQdpIg17eHqm1pYZDCnzxoGWGZ4heNy\n" \
+"p7NImgvj3Nl9Ct+geHuEnx8JbqsKSPmD99VpqYhOM1+sDHcK0c4ZQ5aM3vxS9AKB\n" \
+"TVuiYGcHAgMBAAECggEAUOMcytNKxv2ufjQo/G297osVxyMkpdobW5n8pHmyOxcd\n" \
+"zJh/EpRX9tm0T2aQt2YVUXmwvu2dCnVTQgRdcFoeDQiJ5V3YS2su/grWeyOMPeyP\n" \
+"jEjd2p8Il2FrtymyPT8/1bz93VzEmLkclNofIGG5Dhsyylrf1zQP8U4gRSeVrXHx\n" \
+"YnUk+NhZbrAWus53G41Y80rblXOa2xrPiyXU+22VyHjscKB1fjsssIF9pzd8Q2SN\n" \
+"ds99gvuUxILCuLdY2wRXgcG4ASGg4OmLV3bAr2AR2zUpvm2ji0uuUJ8kFe2UQcsT\n" \
+"DLWucq9gknNixElVMICtqYZJ+fNjWLy6U/IgI5DXgQKBgQD2iAD4MMwXBuHERZWZ\n" \
+"CY+Veeh0Hq0tepdiqr5rhQa7VAWqTh2E3QcExkAJQwWO+/lJ9scNkrIEHgyeNaF8\n" \
+"XpdRx9bz2X8DYZ0pyBvaoIi65FRtYTfM1D/0wkkuSpz8Sjxya1bauJd773Tm/3vx\n" \
+"h/neulS4aEjG1ZjyFwRTtH5LO6QKBgQDsiadakIq6TDJXIiRc5cQ+knLtuKTkefVz\n" \
+"TKNTFMkLcvjwGCtv7ZDDhR86gGaAb3f5fLiZ1nEREpre59Gh7pEWxw0TDBgcZTRy\n" \
+"5qENp56MGZeuKMSIAdKwg1qNgrHjvBiea1fm+ZvTJfBPwaPdrPHcK2v0VhjCFUkC\n" \
+"m/Htx4WUwbwKBgQDVAM1Vo1Oy0Y9fNX/7qfcU/y+IpLicAr+p0DyWSWl3kTET5Eo8\n" \
+"8XuO9Ht/hRjYYX0SGtYBNC36wLvGNjBAdLnpPvDJ37GOCljwMKVgUDPSxlTr7IN5\n" \
+"xik8IGF6TZ01ni577aIteC/qNQqcS0GbfMMLZHlgrTels5+3MQwTlKQTgQKBgQDV\n" \
+"pPeNq2RCJLSLUwE5DycTxT8dTFtTKnzyKVSTpAB64NvMMGh7bj4E+2ZbdsIeW5An\n" \
+"vekWukPhwcY0c3o7IrnVsvAyNghJDXg0F+9739wqeqsv2Q66MbtVRy8xBc0a/zfV\n" \
+"TutUaju+mVPXFfWmMaE61dVqGaG/G26Yc5V8JLM67QKBgCBvuhYebe9x68Zne3jF\n" \
+"VV/xhf307MqWWT7tAePg0KKpUX6iS7V7bqr4nUd/H7CTxe+uMxUUOEv+nGdMz8zr\n" \
+"wQPdWyRdiwlGsVNjEhrxBqm6UbDIjph5GioPaB+0LLIMGnBBmqVfMhrADauZv/eM\n" \
+"Miqp7eDMXZipLrOBniI1xudd\n" \
+"-----END PRIVATE KEY-----\n";
 
+
+
+// Definiera din serveradress
+const char* serverName = "https://192.168.0.103"; // Din NGINX-serveradress
+
+// Skapa en instans av WiFiClientSecure för mTLS
+WiFiClientSecure client;
+
+// Konfigurera sensorerna
 void setup() {
-  Serial.begin(115200);
-  dht.begin();
-  
-  // Anslut till WiFi
-  WiFi.begin(ssid, password);
-  Serial.print("Ansluter till WiFi");
-  
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.print(".");
-  }
-  
-  Serial.println("Ansluten till WiFi!");
+    Serial.begin(115200);
+    dht.begin();
+
+    // Anslut till WiFi
+    WiFi.begin(ssid, password);
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(1000);
+        Serial.println("Ansluter till WiFi...");
+    }
+    Serial.println("Ansluten till WiFi!");
+
+    // Installera certifikaten för mTLS
+    client.setCACert(ca_cert);
+    client.setCertificate(client_cert);
+    client.setPrivateKey(client_key);
 }
 
 void loop() {
-  // Läs temperatur och luftfuktighet från DHT11
-  float humidity = dht.readHumidity();
-  float temperature = dht.readTemperature();
+    // Läs temperatur och luftfuktighet
+    float h = dht.readHumidity();
+    float t = dht.readTemperature();
 
-  // Kontrollera om läsningen misslyckades
-  if (isnan(humidity) || isnan(temperature)) {
-    Serial.println("Misslyckades med att läsa från DHT11!");
-    return;
-  }
-  
-  Serial.print("Luftfuktighet: ");
-  Serial.print(humidity);
-  Serial.print(" %, Temperatur: ");
-  Serial.print(temperature);
-  Serial.println(" *C");
-  
-  // Skicka data till InfluxDB
-  sendToNGINX(humidity, temperature);
-  
-  // Vänta 10 sekunder innan nästa mätning
-  delay(10000);
-}
+    // Kontrollera om läsningarna misslyckades
+    if (isnan(h) || isnan(t)) {
+        Serial.println("Misslyckades med att läsa från DHT-sensorn!");
+        return;
+    }
 
-void sendToNGINX(float humidity, float temperature) {
-    WiFiClientSecure client; // Använd WiFiClient för HTTP
-    String org = "my_org"; 
-    String bucket = "sensor";
+    // Skapa en JSON-sträng för att skicka data
+    String jsonData = String("{\"temperature\":") + t + ",\"humidity\":" + h + "}";
 
-    if (client.connect("172.19.166.79", 443)) { // Ändra till din NGINX IP-adress
-        String data = "environment,sensor=dht11 humidity=" + String(humidity) + ",temperature=" + String(temperature);
-        String request = "POST /api/v2/write?org=" + org + "&bucket=" + bucket + "&precision=s HTTP/1.1\r\n" +
-                         "Host: 172.19.166.79\r\n" + // Återigen, ändra till din NGINX IP-adress
-                         "Authorization: Token " + String(apiToken) + "\r\n" +
-                         "Content-Length: " + String(data.length()) + "\r\n" +
-                         "Content-Type: application/x-www-form-urlencoded\r\n" +
-                         "Connection: close\r\n\r\n" + data;
+    // Skicka data till servern
+    if (client.connect(serverName, 443)) {
+        Serial.println("Ansluten till server!");
 
-        client.print(request);
+        // Skicka HTTP POST-förfrågan
+        client.println("POST /data HTTP/1.1");
+        client.println("Host: 192.168.0.103");
+        client.println("Content-Type: application/json");
+        client.print("Content-Length: ");
+        client.println(jsonData.length());
+        client.println();
+        client.println(jsonData);
 
+        // Läs serverns svar
         while (client.connected() || client.available()) {
             if (client.available()) {
                 String line = client.readStringUntil('\n');
-                Serial.println(line); // Debug för att kontrollera serverns svar
+                Serial.println(line);
             }
         }
+
+        client.stop();
+        Serial.println("Framgångsrikt skickad data!");
     } else {
-        Serial.println("Connection to NGINX failed!");
+        Serial.println("Anslutning till server misslyckades!");
     }
+
+    delay(5000); // Vänta 5 sekunder innan nästa läsning
 }
