@@ -10,7 +10,7 @@
 
 DHT dht(DHTPIN, DHTTYPE);
 
-//const char* apiToken = "GYaBnFXg4AwJtyu8k5yRZruN4O5Ssxe3yuxB1lyE3oKnyibaHxpljWz2FQn-h4ZPxpKwPT1e0zc1UD0DJ4FXRQ==";
+//const char* apiToken = "GYaBnFXg4AwJtyu8k5yRZruN4O5Ssxe3yuxB1lyE3oKnyibaHxpljWz2FQn-h4ZPxpKwPT1e0zc1UD0DJ4FXRQ=="; API token för influxDB men används ej då vi skickar till nginx först
 
 // Definiera dina WiFi-inloggningsuppgifter
 const char* ssid = "Tele2_9cae3d";       // Din WiFi SSID
